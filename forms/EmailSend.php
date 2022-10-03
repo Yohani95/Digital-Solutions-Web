@@ -1,4 +1,10 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+require 'vendor/autoload.php'
+
 function gmail()
 {
   $data =
@@ -37,7 +43,7 @@ function post_gmail()
  
     //Set the hostname of the mail server
     $mail->Host          = 'smtp.gmail.com';
-    $mail->Port          = 465; // o 587
+    $mail->Port          = 587; // o 587
  
     // Propiedad para establecer la seguridad de encripción de la comunicación
     $mail->SMTPSecure    = 'ssl'; // tls o ssl para gmail obligado
