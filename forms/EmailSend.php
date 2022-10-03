@@ -1,72 +1,89 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
+function gmail()
+{
+  $data =
+  [
+    'title' => 'Nuevo mensaje'
+  ];
 
-  // Replace contact@example.com with your real receiving email address
-//   $receiving_email_address = 'digital.solutions.spa22@gmail.com';
-
-//   $contact = new PHP_Email_Form;
-//   $contact->ajax = true;
-//   $contact->to = $receiving_email_address;
-//   $contact->from_name = $_POST['name'];
-//   $contact->from_email = $_POST['email'];
-//   $contact->subject = $_POST['subject'];
-//   $contact->add_message( $_POST['name'], 'From');
-//   $contact->add_message( $_POST['email'], 'Email');
-//   $contact->add_message( $_POST['message'], 'Message', 10);
-//   echo $contact->send();
-// ?>
-
-<?php
-//Import PHPMailer classes into the global namespace
-//These must be at the top of your script, not inside a function
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-
-//Load Composer's autoloader
-require 'PHPMiler/Exception.php';
-require 'PHPMiler/PHPMailer.php';
-require 'PHPMiler/SMTP.php';
-
-//Create an instance; passing `true` enables exceptions
-$mail = new PHPMailer(true);
-
-try {
-    //Server settings
-    $mail->SMTPDebug = 2;                      //Habilitar salida de depuración detallada
-    $mail->isSMTP();                                            //Enviar Usando SMTP
-    $mail->Host       = 'smtp.gmail.com';                     //Configurar el servidor SMTP para enviar a través de
-    $mail->SMTPAuth   = true;                                   //Habilitar autenticación SMTP
-    $mail->Username   = 'digital.solutions.spa22@gmail.com';                     //SMTP nombre de usuario
-    $mail->Password   = '2022DigitalSolutions';                               //SMTP contraseña
-    $mail->SMTPSecure = 'ssl';            //Habilitar el cifrado TLS implícito
-    $mail->Port       = 587;                                    //Puerto TCP para conectarse; use 587 si configuró `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
-    //Recipients
-    $mail->setFrom('digital.solutions.spa22@gmail.com', 'Digital Solutions');
-    $mail->addAddress('yohani95301@gmail.com', 'Yohani Espinoza');     //Agregar un destinatario
-    $mail->addAddress('estebancardenas1996@hotmail.com', 'Esteban');               //Nombre es opcional
-    // $mail->addReplyTo('info@example.com', 'Information');
-    // $mail->addCC('cc@example.com');
-    // $mail->addBCC('bcc@example.com');
-
-    //Attachments
-    // $mail->addAttachment('/var/tmp/file.tar.gz');         //Agregar archivos Adjuntos
-    // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Nombre opcional
-
-    //Content
-    $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = 'Asunto de Prueba';
-    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-    // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-    $mail->send();
-    echo 'Enviado Correctamente';
-} catch (Exception $e) {
-    echo "Error al Enviar. {$mail->ErrorInfo}";
+  View::render('gmail', $data);
 }
+
+function post_gmail()
+{
+  try {
+    // Contenido del correo
+    $nombre = clean($_POST["name"]);
+    $asunto = clean($_POST["subject"]);
+    $contenido = clean($_POST["message"]);
+    $para = clean($_POST["email"]);
+
+
+    if (!filter_var($para, FILTER_VALIDATE_EMAIL)) {
+      throw new Exception('Dirección de correo electrónico no válida.');
+    }
+
+    // Intancia de PHPMailer
+    $mail = new PHPMailer();
+ 
+    // Es necesario para poder usar un servidor SMTP como gmail
+    $mail->isSMTP();
+ 
+    // Si estamos en desarrollo podemos utilizar esta propiedad para ver mensajes de error
+    //SMTP::DEBUG_OFF    = off (for production use) 0
+    //SMTP::DEBUG_CLIENT = client messages 1 
+    //SMTP::DEBUG_SERVER = client and server messages 2
+    $mail->SMTPDebug = 0;
+ 
+    //Set the hostname of the mail server
+    $mail->Host          = 'smtp.gmail.com';
+    $mail->Port          = 465; // o 587
+ 
+    // Propiedad para establecer la seguridad de encripción de la comunicación
+    $mail->SMTPSecure    = 'ssl'; // tls o ssl para gmail obligado
+ 
+    // Para activar la autenticación smtp del servidor
+    $mail->SMTPAuth      = true;
+
+    // Credenciales de la cuenta
+    $email              = 'digital.solutions.spa22@gmail.com';
+    $mail->Username     = $email;
+    $mail->Password     = '2022DigitalSolutions';
+ 
+    // Quien envía este mensaje
+    $mail->setFrom($email, 'Digital Solutions');
+
+    // Si queremos una dirección de respuesta
+    $mail->addReplyTo('estebancardenas1996@hotmail.com', 'Esteban Cardenas');
+ 
+    // Destinatario
+    $mail->addAddress($para, 'John Doe');
+ 
+    // Asunto del correo
+    $mail->Subject = $asunto;
+
+    // Contenido
+    $mail->IsHTML(true);
+    $mail->CharSet = 'UTF-8';
+    $mail->Body    = sprintf('<h1>El mensaje es:</h1><br><p>%s</p>', $contenido);
+ 
+    // Texto alternativo
+    $mail->AltBody = 'No olvides suscribirte a nuestro canal.';
+
+    // Agregar algún adjunto
+    //$mail->addAttachment(IMAGES_PATH.'logo.png');
+ 
+    // Enviar el correo
+    if (!$mail->send()) {
+      throw new Exception($mail->ErrorInfo);
+    }
+
+    Flasher::success(sprintf('Mensaje enviado con éxito a %s', $para));
+    Redirect::back();
+
+  } catch (Exception $e) {
+    Flasher::error($e->getMessage());
+    Redirect::back();
+  }
+}
+?>
