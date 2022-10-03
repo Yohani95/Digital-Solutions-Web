@@ -12,3 +12,4 @@ try {
 } catch (Exception $e) {
     echo "Error al Enviar. {$mail->ErrorInfo}";
 }
+?>
