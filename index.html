@@ -738,8 +738,10 @@
                 <div class="error-message">Vuelva a Intentarlo</div>
                 <div class="sent-message">Tu Mensaje fue Enviado Correctamente. Gracias por Contactarnos!, Serás Asistido a la Brevedad</div>
               </div>
-              <div class="text-center"><button type="submit">Enviar Mensaje </button></div>
+              <div class="text-center"><button type="submit">Enviar Mensaje</button></div>
             </form>
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+            <script type="text/javascript">emailjs.init('AnRYt5DAACl3aG6uc')</script>
           </div>
 
         </div>
@@ -848,5 +850,25 @@
   <script src="assets/js/main.js"></script>
 
 </body>
+<script>const btn = document.getElementById('button');
+
+  document.getElementById('form')
+   .addEventListener('submit', function(event) {
+     event.preventDefault();
+  
+     btn.value = 'Enviando';
+  
+     const serviceID = 'default_service';
+     const templateID = 'template_y7bm3nk';
+  
+     emailjs.sendForm(serviceID, templateID, this)
+      .then(() => {
+        btn.value = 'Enviar Mensaje';
+        alert('Mensaje Enviado Correctamente');
+      }, (err) => {
+        btn.value = 'Enviar Mensaje';
+        alert(JSON.stringify(err));
+      });
+  });</script>
 
 </html>
