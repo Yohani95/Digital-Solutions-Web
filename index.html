@@ -739,16 +739,15 @@
                 <div class="error-message">Vuelva a Intentarlo</div>
                 <div class="sent-message">Tu Mensaje fue Enviado Correctamente. Gracias por Contactarnos!, Serás Asistido a la Brevedad</div>
               </div>
-              <div class="text-center"><button type="submit" id="button">Enviar Mensaje</button></div>
+              <div class="text-center"><input type="submit" id="button" value="Enviar Mensaje" ></div>
             </form>
             <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
             <script type="text/javascript">emailjs.init('AnRYt5DAACl3aG6uc')</script>
           </div>
-
         </div>
-
       </div>
-    </section><!-- End Contact Section -->
+    </section>
+    <!-- End Contact Section -->
 
   </main><!-- End #main -->
 
@@ -851,13 +850,13 @@
   <script src="assets/js/main.js"></script>
 
 </body>
-<script>const btn = document.getElementById('button');
-
+<script>
+const btn = document.getElementById('button');
   document.getElementById('form')
    .addEventListener('submit', function(event) {
      event.preventDefault();
   
-     btn.value = 'Enviando';
+     btn.value = 'Enviando...';
   
      const serviceID = 'default_service';
      const templateID = 'template_y7bm3nk';
@@ -870,6 +869,6 @@
         btn.value = 'Enviar Mensaje';
         alert(JSON.stringify(err));
       });
-  });</script>
-
+  });
+  </script>
 </html>
