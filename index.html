@@ -736,7 +736,7 @@
               <div class="text-center"><button type="submit" id="button" value="Enviar Mensaje">Enviar Mensaje</button></div>
             </form>
             <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-            <script type="text/javascript">emailjs.init('AnRYt5DAACl3aG6uc')</script>
+            <script type="text/javascript">emailjs.init('AnRYt5DAACl3aG6uc')</script>            
           </div>
         </div>
       </div>
@@ -848,13 +848,12 @@
 const btn = document.getElementById('button');
   document.getElementById('form')
    .addEventListener('submit', function(event) {
-     event.preventDefault();
-  
+     event.preventDefault();     
      btn.value = 'Enviando...';
   
      const serviceID = 'default_service';
      const templateID = 'template_y7bm3nk';
-  
+   
      emailjs.sendForm(serviceID, templateID, this)
       .then(() => {
         btn.value = 'Enviar Mensaje';
@@ -863,6 +862,7 @@ const btn = document.getElementById('button');
         btn.value = 'Enviar Mensaje';
         alert(JSON.stringify(err));
       });
+      document.querySelector("form").reset();  
   });
   </script>
 </html>
