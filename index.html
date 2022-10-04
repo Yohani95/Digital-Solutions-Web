@@ -726,19 +726,27 @@
                   <label for="name">Email</label>
                   <input type="email" class="form-control" name="email" id="email" required>
                 </div>
-              </div>
-              <div class="form-group">
+              
+              <div class="form-group col-md-6">
                 <label for="name">Asunto</label>
                 <input type="text" class="form-control" name="subject" id="subject" required>
               </div>
+              <div class="form-group col-md-6">
+                <label for="name">Télefono</label>
+                <input type="number" class="form-control" name="cellPhone" id="cellPhone" required>
+              </div>
+            </div>
               <div class="form-group">
                 <label for="name">Mensaje</label>
                 <textarea class="form-control" name="message" rows="10" required></textarea>
+              </div>
+              <div class="my-3">
+                <div class="loading">Cargando</div>
+                <div class="error-message">Vuelva a Intentarlo</div>
+                <div class="sent-message">Tu Mensaje fue Enviado Correctamente. Gracias por Contactarnos!, Serás Asistido a la Brevedad</div>
               </div>              
               <div class="text-center"><button type="submit" id="button" value="Enviar Mensaje">Enviar Mensaje</button></div>
-            </form>
-            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-            <script type="text/javascript">emailjs.init('AnRYt5DAACl3aG6uc')</script>            
+            </form>                      
           </div>
         </div>
       </div>
@@ -844,6 +852,9 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <!-- Script que realiza la sincronización y envío de correos con EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">emailjs.init('AnRYt5DAACl3aG6uc')</script>  
 
 </body>
 <script>
